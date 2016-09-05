@@ -28,31 +28,12 @@ public class Generator {
 					Check(grid, row, col, value, i,j,0);
 			}	
 		}
-<<<<<<< HEAD
+
+		
 		
 		while(CheckValid(grid) != true){
-=======
-		//System.out.println("step1");
-		for (int i=0; i<9;i++){
-			for (int j=0;j<9;j++){
-			//System.out.print(grid[i][j]+",");
-				}
-			//System.out.println();
-			}
-		/*System.out.println("row:");
-		for (int i=0; i<9;i++){
-			for (int j=0;j<9;j++){
-			System.out.print(row[i][j]+",");
-				}
-			System.out.println();
-			}*/
-		int count =0;
-		
-		while(CheckValid(grid) != true){
-			//System.out.println("the count:" + count);
->>>>>>> origin/master
+
 			ArrayList<Integer> rowclean = new ArrayList<Integer>();
-		
 			ArrayList<Integer> colclean = new ArrayList<Integer>();
 			
 			for (int i=0;i<9;i++){
@@ -101,27 +82,7 @@ public class Generator {
 					}
 				}	
 			}
-<<<<<<< HEAD
 		}
-=======
-			count++;
-			//System.out.println("grid:");
-			for (int i=0; i<9;i++){
-				for (int j=0;j<9;j++){
-				//System.out.print(grid[i][j]+",");
-					}
-				//System.out.println();
-				}
-			}
-		/*System.out.println("row:");
-		for (int i=0; i<9;i++){
-			for (int j=0;j<9;j++){
-			System.out.print(row[i][j]+",");
-				}
-			System.out.println();
-			}*/
->>>>>>> origin/master
-		
 		
 		for (int i=0;i<9;i++){
 			for (int j=0;j<9;j++){
@@ -132,6 +93,7 @@ public class Generator {
 					}
 			}	
 		}
+		
 		return grid;		
 	}
 	
@@ -143,6 +105,7 @@ public class Generator {
 				}
 			}
 		}
+	
 		return true;
 	}
 	
@@ -204,7 +167,7 @@ public class Generator {
 		}
 		return true;
 	}
-<<<<<<< HEAD
+
 	public static void main(String[] args) {
 	Generator test = new Generator();
 	int[][] grid = test.generate();
@@ -215,7 +178,5 @@ public class Generator {
 		System.out.println();
 		}
 	}
-=======
-	
->>>>>>> origin/master
+
 }
