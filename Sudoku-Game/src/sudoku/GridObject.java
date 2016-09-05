@@ -34,6 +34,46 @@ public class GridObject {
 	}
 	
 	/**
+	 * Returns a row of the grid given its index
+	 * @param row	The row of the grid
+	 * @return		The row in a grid
+	 */
+	public int[] getRow(int row){
+		return grid[row];
+	}
+	
+	/**
+	 * Returns a column of the grid given its index
+	 * @param col	The column of the grid
+	 * @return		The column in the grid
+	 */
+	public int[] getCol(int col){
+		int[] column = new int[9];
+		for(int i = 0; i < grid.length; i++){
+			column[i] = grid[i][col];
+		}
+		return column;
+	}
+	
+	/**
+	 * Returns a 2D box of the grid, given the indices of the upper left square
+	 * @param upperLeftRow	The row of the upper left square
+	 * @param upperLeftCol	The column of the upper left square
+	 * @return	The box
+	 */
+	public int[][] getBox(int upperLeftRow, int upperLeftCol){
+		
+		int[][] box = new int[3][3];
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				box[i][j] = grid[upperLeftRow + i][upperLeftCol + j];
+			}
+		}
+		return box;
+		
+	}
+	
+	/**
 	 * Resets the grid to the default state.
 	 * @return	<code>true</code> if operation is sucessful; <code>false</code> otherwise
 	 */

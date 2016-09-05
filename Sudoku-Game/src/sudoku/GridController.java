@@ -27,9 +27,8 @@ public class GridController {
 			else if(sumBox(grid, gridPairs[i][0], gridPairs[i][1]) != 45){
 				return false;
 			}
-			
-			return true;
 		}
+		return true;
 	}
 	
 	/**
@@ -63,15 +62,15 @@ public class GridController {
 	/**
 	 * Returns the summation of all elements in a given box
 	 * @param array	The array containing boxes
-	 * @param upperRightRow	The row of the upper left square
-	 * @param upperRightCol	The column of the upper left square
+	 * @param upperLeftRow	The row of the upper left square
+	 * @param upperLeftCol	The column of the upper left square
 	 * @return	The summation of all the elements in the box
 	 */
-	private int sumBox(int[][] array, int upperRightRow, int upperRightCol){
+	private int sumBox(int[][] array, int upperLeftRow, int upperLeftCol){
 		int sum = 0;
 		
-		for(int i = upperRightRow; i < upperRightRow+3; i++){
-			for(int j = upperRightCol; j < upperRightCol+3; j++){
+		for(int i = upperLeftRow; i < upperLeftRow+3; i++){
+			for(int j = upperLeftCol; j < upperLeftCol+3; j++){
 				sum += array[i][j];
 			}
 		}
