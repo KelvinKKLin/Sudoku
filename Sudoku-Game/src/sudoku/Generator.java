@@ -28,24 +28,8 @@ public class Generator {
 					Check(grid, row, col, value, i,j,0);
 			}	
 		}
-		System.out.println("step1");
-		for (int i=0; i<9;i++){
-			for (int j=0;j<9;j++){
-			System.out.print(grid[i][j]+",");
-				}
-			System.out.println();
-			}
-		/*System.out.println("row:");
-		for (int i=0; i<9;i++){
-			for (int j=0;j<9;j++){
-			System.out.print(row[i][j]+",");
-				}
-			System.out.println();
-			}*/
-		int count =0;
 		
 		while(CheckValid(grid) != true){
-			System.out.println("the count:" + count);
 			ArrayList<Integer> rowclean = new ArrayList<Integer>();
 		
 			ArrayList<Integer> colclean = new ArrayList<Integer>();
@@ -58,22 +42,18 @@ public class Generator {
 					}
 				}
 			}
-			//System.out.println("row need to vapor:"+rowclean);
-			//System.out.println("col need to vapor:"+colclean);
 			Iterator<Integer>cleanrow = rowclean.iterator();
 			Iterator<Integer> cleancol = colclean.iterator();
 			while(cleanrow.hasNext()){
 				int number = cleanrow.next();
 				for (int i=0;i<9;i++){
 					grid[number][i]=0;
-					//row[number][i]=true;
 				}
 			}
 			while(cleancol.hasNext()){
 				int number = cleancol.next();
 				for (int i=0;i<9;i++){
 					grid[i][number]=0;
-					//col[number][i]=true;
 				}
 			}
 			for (int i=0;i<9;i++){
@@ -100,25 +80,18 @@ public class Generator {
 					}
 				}	
 			}
-			count++;
-			System.out.println("grid:");
-			for (int i=0; i<9;i++){
-				for (int j=0;j<9;j++){
-				System.out.print(grid[i][j]+",");
-					}
-				System.out.println();
-				}
-			}
-		/*System.out.println("row:");
-		for (int i=0; i<9;i++){
+		}
+		
+		
+		for (int i=0;i<9;i++){
 			for (int j=0;j<9;j++){
-			System.out.print(row[i][j]+",");
-				}
-			System.out.println();
-			}*/
-		
-	
-		
+				Random percentage = new Random();
+					int value = percentage.nextInt(9)+1;
+					if (value >3){
+						grid[i][j] = 0;
+					}
+			}	
+		}
 		return grid;		
 	}
 	
@@ -194,11 +167,11 @@ public class Generator {
 	public static void main(String[] args) {
 	Generator test = new Generator();
 	int[][] grid = test.generate();
-	/*for (int i=0; i<9;i++){
+	for (int i=0; i<9;i++){
 		for (int j=0;j<9;j++){
 		System.out.print(grid[i][j]+",");
 			}
 		System.out.println();
-		}*/
+		}
 	}
 }
