@@ -44,7 +44,7 @@ public class Generator {
 			}*/
 		int count =0;
 		
-		while(CheckValid(grid) != true && count<10){
+		while(CheckValid(grid) != true){
 			System.out.println("the count:" + count);
 			ArrayList<Integer> rowclean = new ArrayList<Integer>();
 		
