@@ -10,6 +10,8 @@ public class GridController {
 	 */
 	public boolean checkWin(){
 		int[][] grid = gridObject.getGrid();
+		int[][] gridPairs = { {0,0}, {3,0}, {6,0}, {0, 3}, {0, 6}, {3, 3}, {3, 6}, {6,3}, {6,6}};
+		
 		for(int i = 0; i < grid.length; i++){
 			//Check each row
 			if(sumRow(grid, i) != 45){
@@ -22,7 +24,7 @@ public class GridController {
 			}
 			
 			//Check each box
-			else if(sumBox(grid) != 45){
+			else if(sumBox(grid, gridPairs[i][0], gridPairs[i][1]) != 45){
 				return false;
 			}
 			
