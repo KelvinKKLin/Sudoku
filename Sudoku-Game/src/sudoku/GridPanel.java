@@ -14,145 +14,120 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class GridPanel extends JPanel{
-	
-        private int columnCount = 9;
-        private int rowCount = 9;
-        private List<Rectangle> cells;
-        private Point selectedCell;
 
-        public GridPanel() {
-        	
-            cells = new ArrayList<>(columnCount * rowCount);
-            MouseAdapter mouseHandler;
-            
-            mouseHandler = new MouseAdapter() {
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    Point point = e.getPoint();
+	/*
+	 * Define the number of rows and columns for the grid
+	 * Create a list for each square
+	 * Define a variable to store which square is selected
+	 */
+	private int columnCount = 9;
+	private int rowCount = 9;
+	private List<Rectangle> cells;
+	private Point selectedCell;
 
-                    int width = getWidth();
-                    int height = getHeight();
+	public GridPanel() {
 
-                    int cellWidth = width / columnCount;
-                    int cellHeight = height / rowCount;
-                    
-                    int xOffset = (width - (columnCount * cellWidth)) / 2;
-                    int yOffset = (height - (rowCount * cellHeight)) / 2;
+		cells = new ArrayList<>(columnCount * rowCount);		// Create an array list for the cells
+		MouseAdapter mouseHandler;								// Create mouse listener for the mouseMove
 
-                    selectedCell = null;
-                    if (e.getX() >= xOffset && e.getY() >= yOffset) {
+		mouseHandler = new MouseAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				Point point = e.getPoint();
 
-                        int column = (e.getX() - xOffset) / cellWidth;
-                        int row = (e.getY() - yOffset) / cellHeight;
+				int width = getWidth();
+				int height = getHeight();
 
-                        if (column >= 0 && row >= 0 && column < columnCount && row < rowCount) {
+				int cellWidth = width / columnCount;
+				int cellHeight = height / rowCount;
 
-                            selectedCell = new Point(column, row);
+				int xOffset = (width - (columnCount * cellWidth)) / 2;
+				int yOffset = (height - (rowCount * cellHeight)) / 2;
 
-                        }
+				selectedCell = null;
+				
+				// If the mouse is over this cell, call the method to change cell color
+				if (e.getX() >= xOffset && e.getY() >= yOffset) {	
 
-                    }
-                    repaint();
+					int column = (e.getX() - xOffset) / cellWidth;
+					int row = (e.getY() - yOffset) / cellHeight;
 
-                }
-                
-                @Override
-                public void mouseClicked(MouseEvent e){
-                	
-                	/*
-                	JTextField text = new JTextField();
-                	
-                	Point point = e.getPoint();
+					if (column >= 0 && row >= 0 && column < columnCount && row < rowCount) {
+						selectedCell = new Point(column, row);
+					}
 
-                    int width = getWidth();
-                    int height = getHeight();
+				}
+				repaint();
 
-                    int cellWidth = width / columnCount;
-                    int cellHeight = height / rowCount;
-                    
-                    int xOffset = (width - (columnCount * cellWidth)) / 2;
-                    int yOffset = (height - (rowCount * cellHeight)) / 2;
+			}
 
-                    selectedCell = null;
-                    if (e.getX() >= xOffset && e.getY() >= yOffset) {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				
+				
+				
+			}
 
-                        int column = (e.getX() - xOffset) / cellWidth;
-                        int row = (e.getY() - yOffset) / cellHeight;
+		};
+		addMouseMotionListener(mouseHandler);
 
-                        if (column >= 0 && row >= 0 && column < columnCount && row < rowCount) {
+	}
 
-                            text.setBounds(5,5,(column-1)*cellWidth+cellWidth/2,(row-1)*cellHeight+cellHeight/2);
-                            text.setVisible(true);
-                        }
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(400, 400);
+	}
 
-                    }
-                    repaint();*/
 
-                	System.out.println(e.getX()+" "+e.getY());
-                	
-                	
-                }
-                
-            };
-            addMouseMotionListener(mouseHandler);
-            
-        }
+	@Override
+	public void invalidate() {
+		cells.clear();
+		selectedCell = null;
+		super.invalidate();
+	}
 
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(400, 400);
-        }
 
-        
-        @Override
-        public void invalidate() {
-            cells.clear();
-            selectedCell = null;
-            super.invalidate();
-        }
-        
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g.create();
+		int width = getWidth();
+		int height = getHeight();
 
-            int width = getWidth();
-            int height = getHeight();
+		int cellWidth = width / columnCount;
+		int cellHeight = height / rowCount;
 
-            int cellWidth = width / columnCount;
-            int cellHeight = height / rowCount;
+		int xOffset = (width - (columnCount * cellWidth)) / 2;
+		int yOffset = (height - (rowCount * cellHeight)) / 2;
 
-            int xOffset = (width - (columnCount * cellWidth)) / 2;
-            int yOffset = (height - (rowCount * cellHeight)) / 2;
+		if (cells.isEmpty()) {
+			for (int row = 0; row < rowCount; row++) {
+				for (int col = 0; col < columnCount; col++) {
+					Rectangle cell = new Rectangle(
+							xOffset + (col * cellWidth),
+							yOffset + (row * cellHeight),
+							cellWidth,
+							cellHeight);
+					cells.add(cell);
+				}
+			}
+		}
 
-            if (cells.isEmpty()) {
-                for (int row = 0; row < rowCount; row++) {
-                    for (int col = 0; col < columnCount; col++) {
-                        Rectangle cell = new Rectangle(
-                                xOffset + (col * cellWidth),
-                                yOffset + (row * cellHeight),
-                                cellWidth,
-                                cellHeight);
-                        cells.add(cell);
-                    }
-                }
-            }
+		if (selectedCell != null) {
 
-            if (selectedCell != null) {
+			int index = selectedCell.x + (selectedCell.y * columnCount);
+			Rectangle cell = cells.get(index);
+			g2d.setColor(Color.BLUE);
+			g2d.fill(cell);
 
-                int index = selectedCell.x + (selectedCell.y * columnCount);
-                Rectangle cell = cells.get(index);
-                g2d.setColor(Color.BLUE);
-                g2d.fill(cell);
+		}
 
-            }
+		g2d.setColor(Color.GRAY);
+		for (Rectangle cell : cells) {
+			g2d.draw(cell);
+		}
 
-            g2d.setColor(Color.GRAY);
-            for (Rectangle cell : cells) {
-                g2d.draw(cell);
-            }
-
-            g2d.dispose();
-        }
-    }
+		g2d.dispose();
+	}
+}

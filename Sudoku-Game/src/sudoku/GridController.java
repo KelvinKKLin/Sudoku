@@ -98,65 +98,66 @@ public class GridController extends JFrame {
 
 
 
+	/*
+	 * Define buttons for the game
+	 * reset -- restart the game
+	 * gen -- generate numbers at the beginning of the game
+	 * solve -- make the application solve for possible solution	
+	 */
+	private JButton reset = new JButton("Reset");
+	private JButton gen = new JButton("Generate");
+	private JButton solve = new JButton("Solve");
+
+
+	/**
+	 * Construct a window for displaying the game
+	 */
+	public GridController(){
+		super("Sudoku Game");
 		
-		private JButton reset = new JButton("Reset");
-		private JButton gen = new JButton("Generate");
-		private JButton solve = new JButton("Solve");
-		
-		private int columnCount = 9;
-	    private int rowCount = 9;
-	    private List<Rectangle> cells;
-	    private Point selectedCell;
-	    
-	    
-		public GridController(){
-			super("Sudoku Game");
-			
-			JPanel gamePanel = new JPanel();
-			gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.X_AXIS));
-			
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-			buttonPanel.add(reset);
-			buttonPanel.add(gen);
-			buttonPanel.add(solve);
-			
-		
-			GridPanel gridPanel = new GridPanel();
-			
-			
-			gamePanel.add(buttonPanel);
-			gamePanel.add(gridPanel);
-			
-			
-			
-			add(gamePanel);
-			pack();
-	        setLocationRelativeTo(null);
+		JPanel gamePanel = new JPanel();									// Create a JPanel for the game
+		gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.X_AXIS));	// Set the layout of the panel
+
+		JPanel buttonPanel = new JPanel();									// Create a small panel for the buttons
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+		buttonPanel.add(reset);												// Add three buttons into the panel
+		buttonPanel.add(gen);
+		buttonPanel.add(solve);
+
+
+		GridPanel gridPanel = new GridPanel();								// Create a small panel for the grid
+
+
+		gamePanel.add(buttonPanel);											// Put the button panel into the game panel
+		gamePanel.add(gridPanel);											// Put the grid panel into the game panel
+
+		add(gamePanel);														// Add the game panel into the window(JFrame)
+		pack();
+		setLocationRelativeTo(null);
+	}
+
+
+
+
+
+	public static void main(String[] args){
+
+		// set look and feel to the system look and feel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		public static void main(String[] args){
-			
-			 // set look and feel to the system look and feel
-	        try {
-	            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
-			
-			SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                GridController g = new GridController();
-	                g.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	                g.setVisible(true);
-	            }
-	        });
-			
-		}
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				GridController g = new GridController();						// Invoke the constructor to create the game display
+				g.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				g.setVisible(true);
+			}
+		});
+
+	}
 	
 }
