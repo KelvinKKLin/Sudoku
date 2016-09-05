@@ -40,7 +40,7 @@ public class Generator {
 	
 	private void Check(int[][] grid, boolean[] rowcheck, boolean[][] col, int value,int i, int j, int count){
 		if (count<10){
-			if (rowcheck[value-1] == true && col[j][value-1] == true){
+			if (rowcheck[value-1] == true && col[j][value-1] == true && blockCheck(grid,value,i,j)){
 				grid[i][j] = value;
 				col[j][value-1]= false;
 				rowcheck[value-1] = false;
@@ -57,6 +57,43 @@ public class Generator {
 		else{
 			return;
 		}
+	}
+	
+	private boolean blockCheck(int[][] grid,int value,int i, int j){
+		int lowerrow= 0;
+		int upperrow= 8;
+		int lowercol =0;
+		int uppercol =8;
+		if (i<3){
+			upperrow =2;
+		}
+		else if (i<7){
+			lowerrow =3;
+			upperrow=5;
+		}
+		else {
+			lowerrow =6;
+		}
+		
+		if (j<3){
+			uppercol =2;
+		}
+		else if (j<7){
+			lowercol =3;
+			uppercol=5;
+		}
+		else {
+			lowercol =6;
+		}
+		
+		for (int k= lowerrow;k<upperrow;k++){
+			for (int n= lowercol;n<uppercol;n++){
+				if (grid[k][n] == value){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	public static void main(String[] args) {
 	Generator test = new Generator();
