@@ -26,6 +26,8 @@ public class GridController extends JFrame {
 	 */
 	public boolean checkWin(){
 		int[][] grid = gridObject.getGrid();
+		int[][] gridPairs = { {0,0}, {3,0}, {6,0}, {0, 3}, {0, 6}, {3, 3}, {3, 6}, {6,3}, {6,6}};
+		
 		for(int i = 0; i < grid.length; i++){
 			//Check each row
 			if(sumRow(grid, i) != 45){
@@ -38,12 +40,11 @@ public class GridController extends JFrame {
 			}
 			
 			//Check each box
-			else if(sumBox(grid) != 45){
+			else if(sumBox(grid, gridPairs[i][0], gridPairs[i][1]) != 45){
 				return false;
 			}
-			
-			return true;
 		}
+		return true;
 	}
 	
 	/**
@@ -77,15 +78,15 @@ public class GridController extends JFrame {
 	/**
 	 * Returns the summation of all elements in a given box
 	 * @param array	The array containing boxes
-	 * @param upperRightRow	The row of the upper left square
-	 * @param upperRightCol	The column of the upper left square
+	 * @param upperLeftRow	The row of the upper left square
+	 * @param upperLeftCol	The column of the upper left square
 	 * @return	The summation of all the elements in the box
 	 */
-	private int sumBox(int[][] array, int upperRightRow, int upperRightCol){
+	private int sumBox(int[][] array, int upperLeftRow, int upperLeftCol){
 		int sum = 0;
 		
-		for(int i = upperRightRow; i < upperRightRow+3; i++){
-			for(int j = upperRightCol; j < upperRightCol+3; j++){
+		for(int i = upperLeftRow; i < upperLeftRow+3; i++){
+			for(int j = upperLeftCol; j < upperLeftCol+3; j++){
 				sum += array[i][j];
 			}
 		}
