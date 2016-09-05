@@ -2,6 +2,7 @@ package sudoku;
 
 import java.util.ArrayList;
 
+
 public class Solver {
 	
 	/**
@@ -13,7 +14,7 @@ public class Solver {
 		gridObject.resetGrid();
 		int[][] numPossibleValues = updateNumPossibleValues(gridObject);
 		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
-		return solve(gridObject, numPossibleValues, 0, nextIndex[0], nextIndex[1]);
+		return solveRecursive(gridObject, numPossibleValues, 0, nextIndex[0], nextIndex[1]);
 	}
 	
 	/**
@@ -25,7 +26,7 @@ public class Solver {
 	 * @param oldCol	The previous column
 	 * @return	The solved Sudoku grid
 	 */
-	private int[][] solve(GridObject gridObject, int[][] numPossibleValues, int value, int oldRow, int oldCol){
+	private int[][] solveRecursive(GridObject gridObject, int[][] numPossibleValues, int value, int oldRow, int oldCol){
 		if(isComplete(gridObject)){
 			return gridObject.getGrid();
 		}
@@ -33,15 +34,62 @@ public class Solver {
 		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
 		int[] possibleValues = checkSquare(gridObject, nextIndex[0], nextIndex[1]);
 	
-		if(value < possibleValues.length){
+		if(value < possibleValues.length && isGridGood(numPossibleValues)){
 			gridObject.updateNum(nextIndex[0], nextIndex[1], possibleValues[value]);
-			System.out.println("FORWARD: " + value);
-			return solve(gridObject, updateNumPossibleValues(gridObject), 0, nextIndex[0], nextIndex[1]);
+			return solveRecursive(gridObject, updateNumPossibleValues(gridObject), 0, nextIndex[0], nextIndex[1]);
 		} else{
-				gridObject.updateNum(oldRow, oldCol, 0);
-				return solve(gridObject, updateNumPossibleValues(gridObject), ++value, oldRow, oldCol);
-			}
+			gridObject.updateNum(oldRow, oldCol, 0);
+			return solveRecursive(gridObject, updateNumPossibleValues(gridObject), ++value, oldRow, oldCol);
+		}
+	}
+	
+	public int[][] solveIterative(GridObject gridObject){
+		gridObject.resetGrid();
+		int[][] numPossibleValues = updateNumPossibleValues(gridObject);
+		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
+		int oldRow = nextIndex[0];
+		int oldCol = nextIndex[1];
+		int value = 0;
+		int iterations = 0;
+		while(!isComplete(gridObject) && iterations < 100000000){
+			nextIndex = chooseNextSquare(gridObject, numPossibleValues);
+			int[] possibleValues = checkSquare(gridObject, nextIndex[0], nextIndex[1]);
 		
+			if(value < possibleValues.length && isGridGood(numPossibleValues)){
+				gridObject.updateNum(nextIndex[0], nextIndex[1], possibleValues[value]);
+				numPossibleValues = updateNumPossibleValues(gridObject);
+				value = 0;
+				oldRow = nextIndex[0];
+				oldCol = nextIndex[1];
+				iterations++;
+				printArray(gridObject.getGrid());
+				System.out.println("____________________________________\n\n");
+				continue;
+			} else{
+				gridObject.updateNum(oldRow, oldCol, 0);
+				numPossibleValues = updateNumPossibleValues(gridObject);
+				value++;
+				iterations++;
+				
+				printArray(gridObject.getGrid());
+				System.out.println("____________________________________\n\n");
+				continue;
+			}
+			
+		}
+		System.out.println("TERMINATE: " + iterations);
+		return gridObject.getGrid();
+	}
+	
+	private boolean isGridGood(int[][] numPossibleValue){
+		for(int i = 0; i < numPossibleValue.length; i++){
+			for(int j = 0; j < numPossibleValue[0].length; j++){
+				if(numPossibleValue[i][j] == 0){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -51,9 +99,20 @@ public class Solver {
 	private boolean isComplete(GridObject gridObject){
 		int[][] grid = gridObject.getGrid();
 		for(int i = 0; i < grid.length; i++){
+			boolean[] numTaken = new boolean[9];
 			for(int j = 0; j < grid.length; j++){
 				int[] possibleValues = checkSquare(gridObject,i,j);
 				if(possibleValues.length != 0){
+					return false;
+				}
+				if(numTaken[grid[i][j]-1]){
+					return false;
+				} else{
+					numTaken[grid[i][j]-1] = true;
+				}
+			}
+			for(int j = 0; j < numTaken.length; j++){
+				if(!numTaken[j]){
 					return false;
 				}
 			}
