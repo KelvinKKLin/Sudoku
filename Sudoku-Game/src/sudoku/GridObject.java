@@ -10,6 +10,11 @@ public class GridObject {
 		defaultGrid = grid;
 	}
 	
+	public GridObject(int[][] grid){
+		this.grid = grid;
+		defaultGrid = grid;
+	}
+	
 	/**
 	 * The checkRep() method checks the representation of the GridObject.
 	 * @return <code>true</code> if the representation is valid; <code>false</code> otherwise
