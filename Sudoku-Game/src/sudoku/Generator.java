@@ -7,10 +7,23 @@ import java.util.Random;
 
 public class Generator {
 	
-	public Generator(){
-	};
-	
 	public int[][] generate(){
+		int[][] grid = generateGrid();
+		boolean gridGenerated = false;
+		while(!gridGenerated){
+			try{
+				Solver s = new Solver();
+				GridObject go = new GridObject(grid);
+				s.solve(go);
+				gridGenerated = true;
+			}catch(StackOverflowError e){
+				grid = generateGrid();
+			}
+		}
+		return grid;
+	}
+	
+	private int[][] generateGrid(){
 		int[][] grid = new int[9][9];
 		boolean [][] row = new boolean[9][9];
 		boolean [][] col = new boolean[9][9];
@@ -26,7 +39,7 @@ public class Generator {
 					int value = percentage.nextInt(9)+1;
 
 					Check(grid, row, col, value, i,j,0);
-			}	
+			}
 		}
 
 		
@@ -93,8 +106,7 @@ public class Generator {
 					}
 			}	
 		}
-		
-		return grid;		
+		return grid;
 	}
 	
 	private boolean CheckValid(int[][] grid){
@@ -168,15 +180,6 @@ public class Generator {
 		return true;
 	}
 
-	public static void main(String[] args) {
-	Generator test = new Generator();
-	int[][] grid = test.generate();
-	for (int i=0; i<9;i++){
-		for (int j=0;j<9;j++){
-		System.out.print(grid[i][j]+",");
-			}
-		System.out.println();
-		}
-	}
+	
 
 }

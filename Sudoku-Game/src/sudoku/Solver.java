@@ -1,6 +1,7 @@
 package sudoku;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Solver {
@@ -31,11 +32,18 @@ public class Solver {
 			return gridObject.getGrid();
 		}
 
+		int[][][] possibleValuesGrid = new int[9][9][];
+		for(int i = 0; i < possibleValuesGrid.length; i++){
+			for(int j = 0; j < possibleValuesGrid.length; j++){
+				possibleValuesGrid[i][j] = checkSquare(gridObject, i, j);
+				Arrays.sort(possibleValuesGrid[i][j]);
+			}
+		}
+		
 		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
-		int[] possibleValues = checkSquare(gridObject, nextIndex[0], nextIndex[1]);
 	
-		if(value < possibleValues.length && isGridGood(numPossibleValues)){
-			gridObject.updateNum(nextIndex[0], nextIndex[1], possibleValues[value]);
+		if(value < possibleValuesGrid[nextIndex[0]][nextIndex[1]].length && isGridGood(numPossibleValues)){
+			gridObject.updateNum(nextIndex[0], nextIndex[1], possibleValuesGrid[nextIndex[0]][nextIndex[1]][value]);
 			return solveRecursive(gridObject, updateNumPossibleValues(gridObject), 0, nextIndex[0], nextIndex[1]);
 		} else{
 			gridObject.updateNum(oldRow, oldCol, 0);
@@ -43,44 +51,11 @@ public class Solver {
 		}
 	}
 	
-	public int[][] solveIterative(GridObject gridObject){
-		gridObject.resetGrid();
-		int[][] numPossibleValues = updateNumPossibleValues(gridObject);
-		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
-		int oldRow = nextIndex[0];
-		int oldCol = nextIndex[1];
-		int value = 0;
-		int iterations = 0;
-		while(!isComplete(gridObject) && iterations < 100000000){
-			nextIndex = chooseNextSquare(gridObject, numPossibleValues);
-			int[] possibleValues = checkSquare(gridObject, nextIndex[0], nextIndex[1]);
-		
-			if(value < possibleValues.length && isGridGood(numPossibleValues)){
-				gridObject.updateNum(nextIndex[0], nextIndex[1], possibleValues[value]);
-				numPossibleValues = updateNumPossibleValues(gridObject);
-				value = 0;
-				oldRow = nextIndex[0];
-				oldCol = nextIndex[1];
-				iterations++;
-				printArray(gridObject.getGrid());
-				System.out.println("____________________________________\n\n");
-				continue;
-			} else{
-				gridObject.updateNum(oldRow, oldCol, 0);
-				numPossibleValues = updateNumPossibleValues(gridObject);
-				value++;
-				iterations++;
-				
-				printArray(gridObject.getGrid());
-				System.out.println("____________________________________\n\n");
-				continue;
-			}
-			
-		}
-		System.out.println("TERMINATE: " + iterations);
-		return gridObject.getGrid();
-	}
-	
+	/**
+	 * This method checks to see whether there are any values without any possible options.
+	 * @param numPossibleValue	The number of possible values for each square in the grid
+	 * @return	<code>true</code> if there are no impossible squares; <code>false</code> otherwise
+	 */
 	private boolean isGridGood(int[][] numPossibleValue){
 		for(int i = 0; i < numPossibleValue.length; i++){
 			for(int j = 0; j < numPossibleValue[0].length; j++){
