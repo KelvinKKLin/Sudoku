@@ -88,7 +88,7 @@ public class Generator {
 			for (int j=0;j<9;j++){
 				Random percentage = new Random();
 					int value = percentage.nextInt(9)+1;
-					if (value >3){
+					if (value <4){
 						grid[i][j] = 0;
 					}
 			}	
