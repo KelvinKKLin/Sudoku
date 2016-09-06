@@ -1,7 +1,7 @@
 package sudoku;
 
 public class Game {
-
+/*
 	public static void main(String[] args) {
 		//GridController gc = new GridController();
 		
@@ -54,5 +54,5 @@ public class Game {
 		}
 		System.out.println("\n\nEOF\n");
 	}
-
+*/
 }

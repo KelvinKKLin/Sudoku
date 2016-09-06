@@ -15,9 +15,6 @@ import java.util.List;
 
 public class GridController extends JFrame {
 	
-	
-	
-	
 	private GridObject gridObject = new GridObject(new Generator());
 	
 	/**
@@ -129,7 +126,8 @@ public class GridController extends JFrame {
 
 		GridPanel gridPanel = new GridPanel();								// Create a small panel for the grid
 		Generator g = new Generator();
-		GridObject go = new GridObject(g.generate());
+		int[][] grid = g.generate();
+		GridObject go = new GridObject(grid);
 		drawGrid(go,gridPanel);
 
 		gamePanel.add(buttonPanel);											// Put the button panel into the game panel

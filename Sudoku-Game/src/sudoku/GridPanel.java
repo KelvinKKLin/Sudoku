@@ -66,7 +66,7 @@ public class GridPanel extends JPanel{
 					@Override 
 					public void actionPerformed(ActionEvent e){
 						numberEntered = Integer.parseInt(jt.getText());
-						System.out.println(numberEntered);
+						//System.out.println(numberEntered);
 						theNumbers[row][col] = numberEntered;
 						f.dispose();
 						
@@ -155,8 +155,8 @@ public class GridPanel extends JPanel{
 							cellWidth,
 							cellHeight);
 					
-					System.out.println("row&col: "+row+" "+col);
-					System.out.println(theNumbers[row][col]);
+					//System.out.println("row&col: "+row+" "+col);
+					//System.out.println(theNumbers[row][col]);
 					
 					/*
 					if(theNumbers[row][col]!=0){

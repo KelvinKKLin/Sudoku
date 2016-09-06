@@ -9,12 +9,18 @@ public class Generator {
 	
 	public int[][] generate(){
 		int[][] grid = generateGrid();
+		int[][] gridClone = new int[grid.length][grid[0].length];
 		boolean gridGenerated = false;
 		while(!gridGenerated){
 			try{
-				//Solver s = new Solver();
+				for(int i = 0; i < gridClone.length; i++){
+					for(int j = 0; j < gridClone[0].length; j++){
+						gridClone[i][j] = grid[i][j];
+					}
+				}
+				Solver s = new Solver();
 				GridObject go = new GridObject(grid);
-				//s.solve(go);
+				s.solve(go);
 				gridGenerated = true;
 			}catch(StackOverflowError e){
 				grid = generateGrid();
@@ -22,7 +28,7 @@ public class Generator {
 		}
 		
 		printArray(grid);
-		return grid;
+		return gridClone;
 	}
 	
 	private static void printArray(int[][] array){
