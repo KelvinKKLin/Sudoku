@@ -12,15 +12,31 @@ public class Generator {
 		boolean gridGenerated = false;
 		while(!gridGenerated){
 			try{
-				Solver s = new Solver();
+				//Solver s = new Solver();
 				GridObject go = new GridObject(grid);
-				s.solve(go);
+				//s.solve(go);
 				gridGenerated = true;
 			}catch(StackOverflowError e){
 				grid = generateGrid();
 			}
 		}
+		
+		printArray(grid);
 		return grid;
+	}
+	
+	private static void printArray(int[][] array){
+		System.out.print("GENERATOR");
+		for(int i = 0; i < array.length; i++){
+			if(i%3 == 0) System.out.println("\n-----------------------------");
+			else System.out.println();
+			for(int j = 0; j < array[0].length; j++){
+				if (j % 3 == 0) System.out.print(" | ");
+				System.out.print(array[i][j] + " ");
+				
+			}			
+		}
+		System.out.println("\n\nEOF\n");
 	}
 	
 	private int[][] generateGrid(){

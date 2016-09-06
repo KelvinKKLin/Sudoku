@@ -113,6 +113,8 @@ public class GridController extends JFrame {
 	 * Construct a window for displaying the game
 	 */
 	public GridController(){
+		
+		
 		super("Sudoku Game");
 		
 		JPanel gamePanel = new JPanel();									// Create a JPanel for the game
@@ -126,7 +128,9 @@ public class GridController extends JFrame {
 
 
 		GridPanel gridPanel = new GridPanel();								// Create a small panel for the grid
-
+		Generator g = new Generator();
+		GridObject go = new GridObject(g.generate());
+		drawGrid(go,gridPanel);
 
 		gamePanel.add(buttonPanel);											// Put the button panel into the game panel
 		gamePanel.add(gridPanel);											// Put the grid panel into the game panel
@@ -134,10 +138,24 @@ public class GridController extends JFrame {
 		add(gamePanel);														// Add the game panel into the window(JFrame)
 		pack();
 		setLocationRelativeTo(null);
+		
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
+
 	}
 
-
-
+	private void drawGrid(GridObject gridObject, GridPanel gridPanel){
+		int[][] grid = gridObject.getGrid();
+		for(int i = 0; i < grid.length; i++){
+			for(int j = 0; j < grid[0].length; j++){
+				if(grid[i][j] != 0){
+					//TODO: Draw the number onto grid
+					gridPanel.setNumber(i,j,grid[i][j]);
+				}
+			}
+		}
+	}
+	
 
 
 	public static void main(String[] args){
@@ -153,11 +171,10 @@ public class GridController extends JFrame {
 			@Override
 			public void run() {
 				GridController g = new GridController();						// Invoke the constructor to create the game display
-				g.setDefaultCloseOperation(EXIT_ON_CLOSE);
-				g.setVisible(true);
 			}
 		});
 
 	}
+	
 	
 }
