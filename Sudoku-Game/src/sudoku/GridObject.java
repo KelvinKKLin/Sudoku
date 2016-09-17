@@ -109,6 +109,10 @@ public class GridObject {
 			return false;
 		}
 	}
+	
+	public void setGrid(int[][] grid){
+		this.grid = grid;
+	}
 
 	
 }

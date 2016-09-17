@@ -27,7 +27,7 @@ public class Generator {
 			}
 		}
 		
-		printArray(grid);
+		//printArray(grid);
 		return gridClone;
 	}
 	

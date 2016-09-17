@@ -29,6 +29,7 @@ public class GridPanel extends JPanel{
 	private List<Rectangle> cells;
 	private Point selectedCell;
 	
+	
 	public int[][] theNumbers = new int[9][9];
 	public int numberEntered = 0;
 	
@@ -68,7 +69,33 @@ public class GridPanel extends JPanel{
 						numberEntered = Integer.parseInt(jt.getText());
 						//System.out.println(numberEntered);
 						theNumbers[row][col] = numberEntered;
+						
 						f.dispose();
+						
+						GridObject go = new GridObject(theNumbers);
+						if(VictoryChecker.checkWin(go)){
+							JFrame victory = new JFrame("Victory!");
+							victory.setSize(300, 100);
+							JPanel jPanel = new JPanel();
+							jPanel.setVisible(true);
+							JLabel jLabel = new JLabel("You win!");
+							jPanel.add(jLabel);
+							JButton closeButton = new JButton("Close");
+							closeButton.addActionListener(new ActionListener(){
+
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									victory.dispose();
+								}
+								
+							});
+							jPanel.add(closeButton);
+							victory.add(jPanel);
+							victory.setLocationRelativeTo(null);
+							victory.setVisible(true);
+							
+						//	jPanel.setVisible(true);
+						}
 						
 						invalidate();
 						repaint();
@@ -130,8 +157,7 @@ public class GridPanel extends JPanel{
 		selectedCell = null;
 		super.invalidate();
 	}
-
-
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -201,6 +227,14 @@ public class GridPanel extends JPanel{
 
 	public void setNumber(int row, int col, int num){
 		theNumbers[row][col] = num;
+	} 
+	
+	public void setNumber(int row, int col){
+		theNumbers[row][col] = 0;
 	}
 
+	public int[][] getNumbers(){
+		return theNumbers;
+	}
+	
 }
