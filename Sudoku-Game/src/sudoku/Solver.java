@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 
 public class Solver {
-	
+
 	/**
 	 * The solve() wrapper method
 	 * This returns a solved Sudoku grid
@@ -17,7 +17,7 @@ public class Solver {
 		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
 		return solveRecursive(gridObject, numPossibleValues, 0, nextIndex[0], nextIndex[1]);
 	}
-	
+
 	/**
 	 * This is the recursive implementation of the solve algorithm
 	 * @param gridObject	The Sudoku grid
@@ -39,9 +39,9 @@ public class Solver {
 				Arrays.sort(possibleValuesGrid[i][j]);
 			}
 		}
-		
+
 		int[] nextIndex = chooseNextSquare(gridObject, numPossibleValues);
-	
+
 		if(value < possibleValuesGrid[nextIndex[0]][nextIndex[1]].length && isGridGood(numPossibleValues)){
 			gridObject.updateNum(nextIndex[0], nextIndex[1], possibleValuesGrid[nextIndex[0]][nextIndex[1]][value]);
 			return solveRecursive(gridObject, updateNumPossibleValues(gridObject), 0, nextIndex[0], nextIndex[1]);
@@ -50,7 +50,7 @@ public class Solver {
 			return solveRecursive(gridObject, updateNumPossibleValues(gridObject), ++value, oldRow, oldCol);
 		}
 	}
-	
+
 	/**
 	 * This method checks to see whether there are any values without any possible options.
 	 * @param numPossibleValue	The number of possible values for each square in the grid
@@ -66,7 +66,7 @@ public class Solver {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This method determines whether a grid is complete
 	 * @return	<code>true</code> if the grid is complete; <code>false</code> otherwise
@@ -94,7 +94,7 @@ public class Solver {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * This method returns the index of the first most constrained square (i, j)
 	 * @return	The index of the most constrained square (i, j)
@@ -114,9 +114,12 @@ public class Solver {
 		}
 		return index;
 	}
-	
+
 	/**
 	 * This method updates the number of possible values in the grid
+	 *
+	 * @param gridObject The grid to update
+	 * @return An array of possible values in the grid
 	 */
 	private int[][] updateNumPossibleValues(GridObject gridObject){
 		int[][] grid = gridObject.getGrid();
@@ -133,9 +136,9 @@ public class Solver {
 			}
 		}
 		return numPossibleValues;
-		
+
 	}
-	
+
 	/**
 	 * This method returns an array of possible values for a given square at (i,j)
 	 * @param row	The row index
@@ -146,10 +149,10 @@ public class Solver {
 		int[][] grid = gridObject.getGrid();
 		ArrayList<Integer> possibleValues = new ArrayList<Integer>();
 		boolean[] numbers = new boolean[9];
-		
-		
+
+
 		for(int i = 0; i < grid.length; i++){
-			
+
 			//Check row
 			if(grid[row][i] - 1 >= 0){
 				numbers[grid[row][i]-1] = true;
@@ -158,26 +161,26 @@ public class Solver {
 			if(grid[i][col] - 1 >= 0){
 				numbers[grid[i][col]-1] = true;
 			}
-			
+
 			//Check box
 			numbers = checkBox(row, col, gridObject, numbers);
-			
+
 		}
-		
+
 		//Convert all numbers into an array list
 		for(int i = 0; i < numbers.length; i++){
 			if(!numbers[i]){
 				possibleValues.add(i+1);
 			}
 		}
-		
+
 		return possibleValues.stream().mapToInt(i -> i).toArray();
 	}
-	
+
 	/**
 	 * This method checks for possible values for a given box, given the index of a square.
 	 * This method is used by checkSquare(int, int).
-	 * 
+	 *
 	 * @param row	The row index
 	 * @param col	The column index
 	 * @param grid	The grid to check
@@ -267,10 +270,10 @@ public class Solver {
 		}
 		return numbers;
 	}
-	
+
 	/**
 	 * This method is used to print a 2D array
-	 * @param array	The 2D array 
+	 * @param array	The 2D array
 	 */
 	private void printArray(int[][] array){
 		for(int i = 0; i < array.length; i++){
@@ -280,7 +283,7 @@ public class Solver {
 			System.out.println();
 		}
 	}
-	
-	
-	
+
+
+
 }

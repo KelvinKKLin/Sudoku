@@ -1,0 +1,8 @@
+Sudoku-Game/bin/
+Sudoku-Game/.settings/
+Sudoku-Game/.classpath
+Sudoku-Game/.project
+
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
