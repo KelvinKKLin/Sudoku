@@ -1,20 +1,35 @@
 package sudoku;
 
+/**
+ * This class models a grid to be used in Sudoku.
+ *
+ * @author Kelvin Lin, Weilin Hu, Jie Luo
+ */
 public class GridObject {
-	
-	private int[][] grid;
-	private int[][] defaultGrid;
-	
+
+	private int[][] grid;			//The grid's current state
+	private int[][] defaultGrid;	//A copy of the original grid
+
+	/**
+	 * The GridObject constructor
+	 *
+	 * @param g The grid generator
+	 */
 	public GridObject(Generator g){
 		grid = g.generate();
 		defaultGrid = grid;
 	}
-	
+
+	/**
+	 * The GridObject constructor
+	 *
+	 * @param grid A Sudoku grid
+	 */
 	public GridObject(int[][] grid){
 		this.grid = grid;
 		defaultGrid = grid;
 	}
-	
+
 	/**
 	 * The checkRep() method checks the representation of the GridObject.
 	 * @return <code>true</code> if the representation is valid; <code>false</code> otherwise
@@ -29,7 +44,7 @@ public class GridObject {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Returns the grid representation
 	 * @return	The grid representation
@@ -37,7 +52,7 @@ public class GridObject {
 	public int[][] getGrid(){
 		return grid;
 	}
-	
+
 	/**
 	 * Returns a row of the grid given its index
 	 * @param row	The row of the grid
@@ -46,7 +61,7 @@ public class GridObject {
 	public int[] getRow(int row){
 		return grid[row];
 	}
-	
+
 	/**
 	 * Returns a column of the grid given its index
 	 * @param col	The column of the grid
@@ -59,7 +74,7 @@ public class GridObject {
 		}
 		return column;
 	}
-	
+
 	/**
 	 * Returns a 2D box of the grid, given the indices of the upper left square
 	 * @param upperLeftRow	The row of the upper left square
@@ -67,7 +82,7 @@ public class GridObject {
 	 * @return	The box
 	 */
 	public int[][] getBox(int upperLeftRow, int upperLeftCol){
-		
+
 		int[][] box = new int[3][3];
 		for(int i = 0; i < 3; i++){
 			for(int j = 0; j < 3; j++){
@@ -75,9 +90,9 @@ public class GridObject {
 			}
 		}
 		return box;
-		
+
 	}
-	
+
 	/**
 	 * Resets the grid to the default state.
 	 * @return	<code>true</code> if operation is sucessful; <code>false</code> otherwise
@@ -90,7 +105,7 @@ public class GridObject {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Updates the grid representation with a given number
 	 * @param row	The row to update
@@ -109,10 +124,13 @@ public class GridObject {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * This method sets the value of grid.
+	 *
+	 * @param grid 	The Sudoku grid
+	 */
 	public void setGrid(int[][] grid){
 		this.grid = grid;
 	}
-
-	
 }

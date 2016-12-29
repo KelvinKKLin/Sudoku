@@ -3,7 +3,11 @@ package sudoku;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
+/**
+ * This class solves Sudoku grids.
+ *
+ * @author Kelvin Lin
+ */
 public class Solver {
 
 	/**
@@ -20,6 +24,20 @@ public class Solver {
 
 	/**
 	 * This is the recursive implementation of the solve algorithm
+	 *
+	 * The algorithm used is backtracking with most constrained square selection.
+	 *
+	 * The solver algorithm begins by evaluating whether the grid has been solved.
+	 * If so, then it returns the grid.
+	 *
+	 * Otherwise, it calculates the number of possibilities remaining for each square,
+	 * and it performs backtracking on the square with the fewest number of options. Backtracking is
+	 * essentially a brute-force search using all of the different possibilities. It assumes the
+	 * solution is the first possible number, and then it recursively tries to solve the grid.
+	 * If it fails, then it goes to the second number, and then the third number, etc.
+	 *
+	 * If it runs out of options to try, then the algorithm assumes that the grid is unsolvable.
+	 *
 	 * @param gridObject	The Sudoku grid
 	 * @param numPossibleValues	An array containing the number of possible values
 	 * @param value	The number to test

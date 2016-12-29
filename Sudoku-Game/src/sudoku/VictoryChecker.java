@@ -1,5 +1,10 @@
 package sudoku;
 
+/**
+ * This class checks to see whether the user has won the game of Sudoku.
+ *
+ * @author Kelvin Lin
+ */
 public class VictoryChecker {
 
 	/**
@@ -9,18 +14,18 @@ public class VictoryChecker {
 	public static boolean checkWin(GridObject gridObject){
 		int[][] grid = gridObject.getGrid();
 		int[][] gridPairs = { {0,0}, {3,0}, {6,0}, {0, 3}, {0, 6}, {3, 3}, {3, 6}, {6,3}, {6,6}};
-		
+
 		for(int i = 0; i < grid.length; i++){
 			//Check each row
 			if(sumRow(grid, i) != 45){
 				return false;
 			}
-			
+
 			//Check each column
 			else if(sumCol(grid, i) != 45){
 				return false;
 			}
-			
+
 			//Check each box
 			else if(sumBox(grid, gridPairs[i][0], gridPairs[i][1]) != 45){
 				return false;
@@ -28,7 +33,7 @@ public class VictoryChecker {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Take the summation of a column in a square 2D array
 	 * @param grid	The 2D array
@@ -42,7 +47,7 @@ public class VictoryChecker {
 		}
 		return sum;
 	}
-	
+
 	/**
 	 * Returns the summation of all the elements a row in a square array
 	 * @param array	The array to sum
@@ -66,14 +71,14 @@ public class VictoryChecker {
 	 */
 	private static int sumBox(int[][] array, int upperLeftRow, int upperLeftCol){
 		int sum = 0;
-		
+
 		for(int i = upperLeftRow; i < upperLeftRow+3; i++){
 			for(int j = upperLeftCol; j < upperLeftCol+3; j++){
 				sum += array[i][j];
 			}
 		}
-		
+
 		return sum;
 	}
-	
+
 }

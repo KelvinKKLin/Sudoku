@@ -4,9 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-
+/**
+ * This class generates Sudoku grids.
+ *
+ * @author Weilin Hu, Kelvin Lin
+ */
 public class Generator {
-	
+
+	/**
+	 * This class generates Sudoku grids.
+	 *
+	 * It guarantees that the generated grid is solvable
+	 * by solving it first with the Solver.
+	 *
+	 * @return The generated grid
+	 */
 	public int[][] generate(){
 		int[][] grid = generateGrid();
 		int[][] gridClone = new int[grid.length][grid[0].length];
@@ -26,11 +38,17 @@ public class Generator {
 				grid = generateGrid();
 			}
 		}
-		
-		//printArray(grid);
+
 		return gridClone;
 	}
-	
+
+	/**
+	 * This method prints out the Sudoku grid.
+	 *
+	 * It is used for testing.
+	 *
+	 * @param array 	The Sudoku grid
+	 */
 	private static void printArray(int[][] array){
 		System.out.print("GENERATOR");
 		for(int i = 0; i < array.length; i++){
@@ -39,12 +57,17 @@ public class Generator {
 			for(int j = 0; j < array[0].length; j++){
 				if (j % 3 == 0) System.out.print(" | ");
 				System.out.print(array[i][j] + " ");
-				
-			}			
+
+			}
 		}
 		System.out.println("\n\nEOF\n");
 	}
-	
+
+	/**
+	 * This method generates a Sudoku grid
+	 *
+	 * @return	The Sudoku grid
+	 */
 	private int[][] generateGrid(){
 		int[][] grid = new int[9][9];
 		boolean [][] row = new boolean[9][9];
@@ -60,17 +83,17 @@ public class Generator {
 				Random percentage = new Random();
 					int value = percentage.nextInt(9)+1;
 
-					Check(grid, row, col, value, i,j,0);
+					check(grid, row, col, value, i,j,0);
 			}
 		}
 
-		
-		
-		while(CheckValid(grid) != true){
+
+
+		while(checkValid(grid) != true){
 
 			ArrayList<Integer> rowclean = new ArrayList<Integer>();
 			ArrayList<Integer> colclean = new ArrayList<Integer>();
-			
+
 			for (int i=0;i<9;i++){
 				for (int j=0;j<9;j++){
 					if (grid[i][j]==0){
@@ -113,12 +136,12 @@ public class Generator {
 					Random percentage = new Random();
 						int value = percentage.nextInt(9)+1;
 
-						Check(grid, row, col, value, i,j,0);
+						check(grid, row, col, value, i,j,0);
 					}
-				}	
+				}
 			}
 		}
-		
+
 		for (int i=0;i<9;i++){
 			for (int j=0;j<9;j++){
 				Random percentage = new Random();
@@ -126,12 +149,20 @@ public class Generator {
 					if (value <4){
 						grid[i][j] = 0;
 					}
-			}	
+			}
 		}
 		return grid;
 	}
-	
-	private boolean CheckValid(int[][] grid){
+
+	/**
+	 * This method checks to see that the generated grid is valid.
+	 *
+	 * A valid grid is a grid with at least one potential solution.
+	 *
+	 * @param grid 	The Sudoku grid
+	 * @return <code>true</code> if the grid is valid, <code>false</code> otherwise.
+	 */
+	private boolean checkValid(int[][] grid){
 		for (int i=0;i<9;i++){
 			for (int j=0;j<9;j++){
 				if (grid[i][j]==0){
@@ -139,12 +170,23 @@ public class Generator {
 				}
 			}
 		}
-	
+
 		return true;
 	}
-	
 
-	private void Check(int[][] grid, boolean[][] row, boolean[][] col, int value,int i, int j, int count){
+	/**
+	 * This method checks to see that there is exactly one of each number
+	 * in every row and column of the grid.
+	 *
+	 * @param grid 		The Sudoku grid
+	 * @param row 		The row to check
+	 * @param col 		The column to check
+	 * @param value 	The value to look for
+	 * @param i 		The current row checking
+	 * @param j 		The current column checking
+	 * @param count 	The total number of times checked
+	 */
+	private void check(int[][] grid, boolean[][] row, boolean[][] col, int value,int i, int j, int count){
 		if (count<1000){
 			if (row[i][value-1] == true && col[j][value-1] == true &&blockCheck(grid,value,i,j) ){
 				grid[i][j] = value;
@@ -153,10 +195,10 @@ public class Generator {
 			}
 			else {
 				if (value<9){
-				Check(grid, row, col, value+1,i,j,count+1);
+				check(grid, row, col, value+1,i,j,count+1);
 				}
 				else{
-					Check(grid, row, col, 1,i,j,count+1);
+					check(grid, row, col, 1,i,j,count+1);
 				}
 			}
 		}
@@ -164,7 +206,17 @@ public class Generator {
 			return;
 		}
 	}
-	
+
+	/**
+	 * This method checks to see that every block contains exactly one of
+	 * each number.
+	 *
+	 * @param grid 		The Sudoku grid
+	 * @param value 	The value to search for
+	 * @param i 		The row to search in
+	 * @param j 		The column to search in
+	 * @return 			<code>true</code> if the block is valid, <code>false</code> otherwise.
+	 */
 	private boolean blockCheck(int[][] grid,int value,int i, int j){
 		int lowerrow= 0;
 		int upperrow= 8;
@@ -180,7 +232,7 @@ public class Generator {
 		else {
 			lowerrow =6;
 		}
-		
+
 		if (j<3){
 			uppercol =2;
 		}
@@ -191,7 +243,7 @@ public class Generator {
 		else {
 			lowercol =6;
 		}
-		
+
 		for (int k= lowerrow;k<upperrow+1;k++){
 			for (int n= lowercol;n<uppercol+1;n++){
 				if (grid[k][n] == value){
@@ -202,6 +254,6 @@ public class Generator {
 		return true;
 	}
 
-	
+
 
 }
