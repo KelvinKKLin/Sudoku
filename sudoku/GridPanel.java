@@ -28,11 +28,16 @@ public class GridPanel extends JPanel{
 	private int rowCount = 9;
 	private List<Rectangle> cells;
 	private Point selectedCell;
-	
-	
+
+
 	public int[][] theNumbers = new int[9][9];
 	public int numberEntered = 0;
-	
+
+	/**
+	 * The GridPanel Constructor
+	 *
+	 * This method initalizes all required variables for the grid panel.
+	 */
 	public GridPanel() {
 
 		for(int i=0; i<9; i++){
@@ -40,19 +45,19 @@ public class GridPanel extends JPanel{
 				theNumbers[i][j]=0;
 			}
 		}
-		
+
 		cells = new ArrayList<>(columnCount * rowCount);		// Create an array list for the cells
 		MouseAdapter mouseHandler;								// Create mouse listener for the mouseMove
 		MouseAdapter mouseHandler2;
 		mouseHandler2 = new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e){
-				
+
 				// Click and get the number
 				int col = (int)(e.getX()/(400.0/9));
 				int row = (int)(e.getY()/(400.0/9));
-				
-				
+
+
 				JFrame f = new JFrame("Enter");
 				f.setSize(300, 100);
 				JPanel jp = new JPanel();
@@ -61,17 +66,16 @@ public class GridPanel extends JPanel{
 				JTextField jt = new JTextField(2);
 				jp.add(jl);
 				jp.add(jt);
-				
+
 				JButton jb = new JButton("Submit");
 				jb.addActionListener(new ActionListener(){
-					@Override 
+					@Override
 					public void actionPerformed(ActionEvent e){
 						numberEntered = Integer.parseInt(jt.getText());
-						//System.out.println(numberEntered);
 						theNumbers[row][col] = numberEntered;
-						
+
 						f.dispose();
-						
+
 						GridObject go = new GridObject(theNumbers);
 						if(VictoryChecker.checkWin(go)){
 							JFrame victory = new JFrame("Victory!");
@@ -87,33 +91,34 @@ public class GridPanel extends JPanel{
 								public void actionPerformed(ActionEvent arg0) {
 									victory.dispose();
 								}
-								
+
 							});
 							jPanel.add(closeButton);
 							victory.add(jPanel);
 							victory.setLocationRelativeTo(null);
 							victory.setVisible(true);
-							
-						//	jPanel.setVisible(true);
+
 						}
-						
+
 						invalidate();
 						repaint();
 					}
-					
+
 				});
-				
+
 				jp.add(jb);
-				
+
 				f.add(jp);
 				f.setLocationRelativeTo(null);
-				f.setVisible(true);		
-				
+				f.setVisible(true);
+
 			}};
-		mouseHandler = new MouseAdapter() {
+
+			//Handle mouse events
+			mouseHandler = new MouseAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				Point point = e.getPoint();						
+				Point point = e.getPoint();
 
 				int width = getWidth();
 				int height = getHeight();
@@ -145,19 +150,31 @@ public class GridPanel extends JPanel{
 
 	}
 
+	/**
+	 * This method returns the preferred size of the screen.
+	 *
+	 * @return 	The preferred size of the screen
+	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(400, 400);
 	}
 
-
+	/**
+	 * This method clears the screen.
+	 */
 	@Override
 	public void invalidate() {
 		cells.clear();
 		selectedCell = null;
 		super.invalidate();
 	}
-	
+
+	/**
+	 * This method redraws the screen.
+	 *
+	 * @param g 	The graphics to redraw
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -180,24 +197,14 @@ public class GridPanel extends JPanel{
 							yOffset + (row * cellHeight),
 							cellWidth,
 							cellHeight);
-					
-					//System.out.println("row&col: "+row+" "+col);
-					//System.out.println(theNumbers[row][col]);
-					
-					/*
-					if(theNumbers[row][col]!=0){
-						g2d.drawString("Q",100,100);
-						//g2d.drawString(""+theNumbers[row][col], (row-1)*(400/9)+400/9/2, (col-1)*(400/9)+400/9/2);
-					}
-					*/
-					
+
 					cells.add(cell);
 				}
 			}
 		}
 
 		if (selectedCell != null) {
-			
+
 			int index = selectedCell.x + (selectedCell.y * columnCount);
 			Rectangle cell = cells.get(index);
 			g2d.setColor(Color.BLUE);
@@ -218,23 +225,41 @@ public class GridPanel extends JPanel{
 				}
 			}
 		}
-		
+
 		g2d.dispose();
-		
-		
-		
+
+
+
 	}
 
+	/**
+	 * This method sets the number on a grid.
+	 *
+	 * @param row 	The row of the grid
+	 * @param col   The column of the grid
+	 * @param num   The number to set
+	 */
 	public void setNumber(int row, int col, int num){
 		theNumbers[row][col] = num;
-	} 
-	
+	}
+
+	/**
+	 * This method sets the number on a grid to 0.
+	 *
+	 * @param row 	The row of the grid
+	 * @param col   The column of the grid
+	 */
 	public void setNumber(int row, int col){
 		theNumbers[row][col] = 0;
 	}
 
+	/**
+	 * This method returns the numbers on the grid panel.
+	 *
+	 * @return the numbers on the grid panel
+	 */
 	public int[][] getNumbers(){
 		return theNumbers;
 	}
-	
+
 }
